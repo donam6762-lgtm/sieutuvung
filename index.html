@@ -17,22 +17,22 @@
         }
        
         .container {
-            max-width: 880px;
+            max-width: 850px;
             margin: 30px auto;
             background: white;
-            padding: 45px 40px;
+            padding: 50px 40px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             border-radius: 12px;
             position: relative;
         }
        
-        /* Khung ảnh nằm trên cùng bên phải */
+        /* Khung ảnh bên phải như ảnh bạn chụp */
         .featured-image {
             position: absolute;
-            top: 45px;
+            top: 80px;
             right: 40px;
-            width: 230px;
-            height: 345px;
+            width: 240px;
+            height: 360px;
             border: 2px dashed #ccc;
             border-radius: 10px;
             background: #f9f9f9;
@@ -43,8 +43,7 @@
             color: #999;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-            z-index: 10;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
         }
        
         .featured-image:hover {
@@ -65,22 +64,22 @@
         }
        
         .upload-placeholder i {
-            font-size: 55px;
+            font-size: 52px;
             margin-bottom: 12px;
         }
        
         .upload-placeholder p {
             margin: 0;
-            font-size: 0.97rem;
+            font-size: 0.98rem;
         }
        
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.7rem;
-            line-height: 1.22;
+            font-size: 2.65rem;
+            line-height: 1.25;
             color: #1a1a1a;
-            margin-bottom: 12px;
-            padding-right: 290px;   /* tạo khoảng cho ảnh bên phải */
+            margin-bottom: 15px;
+            padding-right: 280px;   /* tạo khoảng trống cho ảnh bên phải */
         }
        
         .subtitle {
@@ -88,14 +87,14 @@
             color: #555;
             font-style: italic;
             margin-bottom: 35px;
-            padding-right: 290px;
+            padding-right: 280px;
         }
        
         .author {
             color: #666;
             font-size: 0.95rem;
-            margin-bottom: 50px;
-            padding-right: 290px;
+            margin-bottom: 45px;
+            padding-right: 280px;
         }
        
         h2 {
@@ -128,43 +127,6 @@
             border-left: 7px solid #3498db;
             margin: 70px 0;
         }
-
-        .action-bar {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .action-btn {
-            border: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: opacity 0.2s ease;
-        }
-
-        .action-btn:hover {
-            opacity: 0.9;
-        }
-
-        .btn-pdf { background: #e74c3c; }
-        .btn-image { background: #2980b9; }
-        .btn-print { background: #2c3e50; }
-
-        #exportStatus {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        @page {
-            size: A4;
-            margin: 14mm;
-        }
         
         @media (max-width: 768px) {
             .container { padding: 35px 25px; }
@@ -175,115 +137,75 @@
                 width: 100%;
                 max-width: 300px;
                 height: 420px;
-                margin: 25px auto 35px;
+                margin: 30px auto;
             }
             h1, .subtitle, .author {
                 padding-right: 0;
-            }
-        }
-
-        @media print {
-            body {
-                background: #fff;
-            }
-
-            .hide-in-export {
-                display: none !important;
-            }
-
-            .container {
-                max-width: none;
-                margin: 0;
-                padding: 0;
-                box-shadow: none;
-                border-radius: 0;
-            }
-
-            .featured-image {
-                position: relative;
-                top: 0;
-                right: 0;
-                float: right;
-                width: 220px;
-                height: 330px;
-                margin: 0 0 18px 24px;
-                box-shadow: none;
-                border: 1px solid #ddd;
-            }
-
-            h1, .subtitle, .author {
-                padding-right: 0;
-            }
-
-            h2, p, .conclusion {
-                page-break-inside: avoid;
-                break-inside: avoid;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="action-bar hide-in-export">
-            <button id="btnPdf" class="action-btn btn-pdf" onclick="exportAsPDF()">Tải PDF</button>
-            <button id="btnImage" class="action-btn btn-image" onclick="exportAsImage()">Tải ảnh PNG</button>
-            <button class="action-btn btn-print" onclick="window.print()">In</button>
-            <span id="exportStatus"></span>
+        
+        <!-- Khung ảnh bên phải -->
+        <div class="featured-image" onclick="document.getElementById('imageUpload').click()">
+            <img id="uploadedImage" src="" alt="Ảnh minh họa">
+            <div class="upload-placeholder" id="placeholder">
+                <i>+</i>
+                <p>Thêm ảnh 4x6</p>
+            </div>
         </div>
 
-        <div id="articleContent" class="article-content">
-            <!-- Khung ảnh nằm trên cùng bên phải -->
-            <div class="featured-image" onclick="document.getElementById('imageUpload').click()">
-                <img id="uploadedImage" src="" alt="Ảnh minh họa bài viết">
-                <div class="upload-placeholder" id="placeholder">
-                    <i>+</i>
-                    <p>Thêm ảnh 4x6</p>
-                </div>
-            </div>
+        <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)">
 
-            <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)">
-
-            <h1>Không chọn Nhật cho con – một quyết định không cảm tính</h1>
+        <h1>Không chọn Nhật cho con – một quyết định không cảm tính</h1>
         
-            <p class="subtitle">
-                Dạo gần đây, tôi thấy nhiều bố mẹ Việt Nam đang sống ở Nhật xem việc cho con học và lớn lên ở đây như một lựa chọn rất hợp lý: môi trường an toàn, kỷ luật, giáo dục bài bản và tương lai rộng mở. Tôi hiểu suy nghĩ đó, vì ai làm cha mẹ cũng muốn đem lại điều tốt nhất cho con.
-            </p>
+        <p class="subtitle">
+            Dạo gần đây, tôi thấy nhiều bố mẹ Việt Nam đang sống ở Nhật xem việc cho con học và lớn lên ở đây như một lựa chọn rất hợp lý: môi trường an toàn, kỷ luật, giáo dục bài bản và tương lai rộng mở. Tôi hiểu suy nghĩ đó, vì ai làm cha mẹ cũng muốn đem lại điều tốt nhất cho con.
+        </p>
 
-            <div class="author">
-                <strong>Tác giả:</strong> N2C • Tháng 4/2026
-            </div>
+        <div class="author">
+            <strong>Tác giả:</strong> N2C • Tháng 4/2026
+        </div>
 
-            <p>Nhưng sau vài năm sống ở Nhật và quan sát thực tế, tôi nhận ra rằng mình không chọn nơi này làm chốn lớn lên lâu dài cho con, ít nhất là khi con còn quá nhỏ. Con gái tôi gần 4 tuổi, và tôi nghĩ đây là giai đoạn rất quan trọng để con hình thành cảm xúc, sự tự tin, cách bày tỏ bản thân và sự gắn bó với gia đình. Ở độ tuổi này, tôi muốn con được sống trong một môi trường nơi con có thể là chính mình, thay vì phải học cách “vừa với” xung quanh quá sớm.</p>
+        <p>Nhưng sau vài năm sống ở Nhật và quan sát thực tế, tôi nhận ra rằng mình không chọn nơi này làm chốn lớn lên lâu dài cho con, ít nhất là khi con còn quá nhỏ. Con gái tôi gần 4 tuổi, và tôi nghĩ đây là giai đoạn rất quan trọng để con hình thành cảm xúc, sự tự tin, cách bày tỏ bản thân và sự gắn bó với gia đình. Ở độ tuổi này, tôi muốn con được sống trong một môi trường nơi con có thể là chính mình, thay vì phải học cách “vừa với” xung quanh quá sớm.</p>
        
         <p>Tôi không phủ nhận những điểm tốt của xã hội và giáo dục Nhật Bản. Đây là một nơi rất ngăn nắp, an toàn, và trẻ em được dạy nhiều điều đáng quý như tính tự lập, ý thức tập thể và sự tôn trọng người khác. Nhưng điều tôi băn khoăn là: những giá trị ấy, dù tốt, có thật sự phù hợp với một đứa trẻ mang nền văn hóa Việt Nam hay không?</p>
 
         <h2>1. Khi hòa nhập trở thành áp lực vô hình</h2>
         <p>Xã hội Nhật rất trật tự, chuẩn mực và đề cao sự đồng nhất. Điều này tạo ra một môi trường ổn định, nhưng cũng khiến trẻ nhỏ sớm cảm nhận được rằng mình cần phải giống với số đông thì mới dễ được chấp nhận.</p>
-        <p>Với người lớn, đó có thể là kỹ năng sống. Nhưng với trẻ con, nhất là trẻ còn rất nhỏ, điều này có thể trở thành một áp lực vô hình.</p>
+        <p>Với người lớn, đó có thể là kỹ năng sống. Nhưng với trẻ con, nhất là trẻ còn rất nhỏ, điều này có thể trở thành một áp lực vô hình. Trẻ dần học cách nói ít lại, thể hiện vừa phải và tự điều chỉnh mình trước khi kịp hiểu rõ cảm xúc của chính mình.</p>
         <p>Tôi lo rằng nếu phải hòa nhập quá sớm, con sẽ quen với việc thu nhỏ bản thân để vừa với môi trường, thay vì được lớn lên một cách tự nhiên.</p>
 
         <h2>2. Sự im lặng được dạy như một đức tính tốt</h2>
-        <p>Ở Nhật, việc “không làm phiền người khác” và “không gây rắc rối cho tập thể” được coi là một điều rất quan trọng. Trẻ được dạy kiềm chế cảm xúc từ sớm.</p>
+        <p>Ở Nhật, việc “không làm phiền người khác” và “không gây rắc rối cho tập thể” được coi là một điều rất quan trọng. Trẻ được dạy kiềm chế cảm xúc từ sớm, và điều đó có mặt tốt của nó.</p>
         <p>Nhưng với trẻ Việt Nam, vốn thường được khuyến khích bày tỏ niềm vui, nỗi buồn hay nhu cầu của mình một cách rõ ràng hơn, sự im lặng này đôi khi trở thành một dạng kìm nén.</p>
-        <p>Tôi hiểu đây là một nét văn hóa riêng. Chỉ là với trẻ nhỏ, việc học cách nén cảm xúc quá sớm có thể khiến con trở nên dè dặt hơn.</p>
+        <p>Tôi hiểu đây là một nét văn hóa riêng, và không phải lúc nào cũng tiêu cực. Chỉ là với trẻ nhỏ, việc học cách nén cảm xúc quá sớm có thể khiến con trở nên dè dặt và khó mở lòng hơn về sau.</p>
 
-        <h2>3. Cô đơn một phần không đến từ kỳ thị, mà từ cảm giác không thuộc về</h2>
+        <h2>3. Cô đơn không đến từ bắt nạt, mà từ cảm giác không thuộc về</h2>
         <p>Với trẻ em nước ngoài, đặc biệt là trẻ châu Á như Việt Nam, vấn đề thường không phải là bị bắt nạt rõ ràng, mà là cảm giác mình không thật sự thuộc về nơi đó.</p>
-        <p>Không ai ghét bỏ, nhưng cũng không ai thật sự kéo con vào. Những cảm giác nhỏ này lại ảnh hưởng lâu dài đến tâm lý trẻ.</p>
+        <p>Không ai ghét bỏ, nhưng cũng không ai thật sự kéo con vào. Không ai làm gì sai, nhưng con vẫn có thể thấy mình đứng ngoài một vòng tròn nào đó. Những cảm giác như vậy đôi khi rất nhỏ, nhưng lại ảnh hưởng lâu dài đến tâm lý trẻ.</p>
+        <p>Tôi nghĩ điều đáng lo không phải là con bị tổn thương lớn, mà là con sống trong cảm giác lạc lõng âm thầm mỗi ngày. Đó là kiểu cô đơn rất khó gọi tên, nhưng lại không dễ bỏ qua.</p>
 
         <h2>4. Tự lập sớm – hay là tự chịu đựng sớm</h2>
-        <p>Nhiều người rất khen trẻ em Nhật tự lập từ nhỏ. Nhưng tôi vẫn tự hỏi: đó là sự trưởng thành thật sự, hay là trẻ buộc phải thích nghi sớm hơn khả năng cảm xúc của mình?</p>
+        <p>Nhiều người rất khen trẻ em Nhật tự lập từ nhỏ: tự đi học, tự lo việc cá nhân, tự biết sắp xếp cuộc sống của mình. Tôi thấy đó là một điều đáng quý.</p>
+        <p>Nhưng tôi vẫn tự hỏi: đó là sự trưởng thành thật sự, hay là trẻ buộc phải thích nghi sớm hơn khả năng cảm xúc của mình?</p>
+        <p>Với tôi, tự lập không có nghĩa là trẻ phải tự gánh hết mọi thứ. Trẻ vẫn cần được nương tựa, được chia sẻ và được biết rằng khi con mệt, con vẫn có thể tìm đến bố mẹ.</p>
 
         <h2>5. Khoảng cách gia đình – điều mất đi khó nhận ra nhất</h2>
-        <p>Điều tôi lo lắng nhất là khoảng cách giữa con và gia đình sẽ thay đổi như thế nào khi sống lâu trong môi trường này.</p>
+        <p>Điều tôi lo lắng nhất không chỉ là chuyện học hành, mà là khoảng cách giữa con và gia đình sẽ thay đổi như thế nào khi sống lâu trong môi trường này.</p>
+        <p>Ở Việt Nam, gia đình thường là nơi con cái được ôm ấp, chia sẻ và an ủi nhiều hơn. Ở Nhật, sự độc lập và giữ khoảng cách cá nhân được coi trọng hơn.</p>
+        <p>Khoảng cách này ban đầu có thể rất nhỏ, nhưng theo thời gian, nó có thể làm thay đổi cách con nhìn về gia đình. Và điều đó đôi khi mất đi rất âm thầm, đến khi nhận ra thì đã khó kéo lại.</p>
 
         <h2>6. Thành công không bù được những mất mát nền tảng</h2>
-        <p>Có thể con sẽ giỏi hơn, kỷ luật hơn nếu lớn lên ở Nhật. Nhưng nếu phải đánh đổi bằng sự cô đơn và khoảng cách với gia đình, thì đó không còn là thành công trọn vẹn.</p>
-        <p class="highlight">Với tôi, một đứa trẻ được lớn lên đầy đủ về tình cảm còn quan trọng hơn rất nhiều.</p>
+        <p>Có thể con sẽ giỏi tiếng Nhật hơn, kỷ luật hơn và có nhiều cơ hội hơn nếu lớn lên ở Nhật. Nhưng nếu phải đánh đổi bằng sự thu mình, sự cô đơn và khoảng cách với gia đình, thì tôi không cho đó là thành công trọn vẹn.</p>
+        <p class="highlight">Với tôi, một đứa trẻ được lớn lên đầy đủ về tình cảm còn quan trọng hơn một đứa trẻ chỉ giỏi sống đúng khuôn.</p>
 
-        <h2>7. Sự chọn lựa</h2>
+        <h2>7. Lựa chọn của tôi</h2>
         <p>Tôi không chọn Nhật cho con không phải vì Nhật không tốt, mà vì tôi không muốn con phải thay đổi quá nhiều để thích nghi khi con còn quá nhỏ.</p>
-        <p>Tôi muốn con gái tôi được là chính mình, được vui, được buồn, được thử sai và được lớn lên trong sự yêu thương tự nhiên của gia đình.</p>
+        <p>Tôi muốn con gái tôi được là chính mình, được vui, được buồn, được thử sai và được lớn lên trong sự yêu thương tự nhiên của gia đình. Tôi muốn con giữ được sự hồn nhiên của một đứa trẻ Việt Nam, thay vì phải học cách kìm mình quá sớm.</p>
+        <p>Nếu sau này con lớn hơn, có bản lĩnh hơn và hiểu rõ bản thân hơn, tôi vẫn sẵn sàng cân nhắc lại. Nhưng ở giai đoạn này, tôi chọn một môi trường phù hợp hơn với con, thay vì chỉ nhìn vào danh nghĩa của một môi trường được xem là tốt.</p>
 
         <div class="conclusion">
             <h2 style="margin-top:0; border-left:none; padding-left:0;">Kết</h2>
@@ -293,107 +215,14 @@
             </p>
         </div>
 
-            <div class="author">
-                Cảm ơn bạn đã đọc.<br>
-                Đây là suy nghĩ cá nhân của một người Việt đang sống ở Nhật (N2C – Nam 2 con).<br>
-                Rất mong nhận được những chia sẻ chân thành từ các bậc phụ huynh khác.
-            </div>
+        <div class="author">
+            Cảm ơn bạn đã đọc.<br>
+            Đây là suy nghĩ cá nhân của một người Việt đang sống ở Nhật (N2C – Nam 2 con).<br>
+            Rất mong nhận được những chia sẻ chân thành từ các bậc phụ huynh khác.
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script>
-        function setExportState(isExporting, message) {
-            document.getElementById('btnPdf').disabled = isExporting;
-            document.getElementById('btnImage').disabled = isExporting;
-            document.getElementById('exportStatus').textContent = message || '';
-        }
-
-        async function renderArticleCanvas() {
-            await document.fonts.ready;
-            const article = document.getElementById('articleContent');
-            return html2canvas(article, {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: '#ffffff'
-            });
-        }
-
-        async function exportAsImage() {
-            try {
-                setExportState(true, 'Dang tao anh...');
-                const canvas = await renderArticleCanvas();
-                canvas.toBlob(function(blob) {
-                    if (!blob) {
-                        throw new Error('Khong tao duoc file anh');
-                    }
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'bai-viet-bien-luan.png';
-                    link.click();
-                    URL.revokeObjectURL(url);
-                    setExportState(false, 'Da tai anh PNG');
-                }, 'image/png', 1);
-            } catch (error) {
-                setExportState(false, 'Loi khi tao anh: ' + error.message);
-            }
-        }
-
-        async function exportAsPDF() {
-            try {
-                setExportState(true, 'Dang tao PDF...');
-                const canvas = await renderArticleCanvas();
-                const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
-
-                const pageWidth = 210;
-                const pageHeight = 297;
-                const margin = 10;
-                const contentWidth = pageWidth - margin * 2;
-                const contentHeight = pageHeight - margin * 2;
-                const pageHeightPx = Math.floor((canvas.width * contentHeight) / contentWidth);
-                let renderedHeightPx = 0;
-                let pageIndex = 0;
-
-                while (renderedHeightPx < canvas.height) {
-                    const sliceHeightPx = Math.min(pageHeightPx, canvas.height - renderedHeightPx);
-                    const pageCanvas = document.createElement('canvas');
-                    pageCanvas.width = canvas.width;
-                    pageCanvas.height = sliceHeightPx;
-
-                    const pageCtx = pageCanvas.getContext('2d');
-                    pageCtx.drawImage(
-                        canvas,
-                        0,
-                        renderedHeightPx,
-                        canvas.width,
-                        sliceHeightPx,
-                        0,
-                        0,
-                        canvas.width,
-                        sliceHeightPx
-                    );
-
-                    const pageImage = pageCanvas.toDataURL('image/jpeg', 0.96);
-                    const pageRenderHeight = (sliceHeightPx * contentWidth) / canvas.width;
-
-                    if (pageIndex > 0) {
-                        pdf.addPage();
-                    }
-
-                    pdf.addImage(pageImage, 'JPEG', margin, margin, contentWidth, pageRenderHeight, '', 'FAST');
-                    renderedHeightPx += sliceHeightPx;
-                    pageIndex++;
-                }
-
-                pdf.save('bai-viet-bien-luan.pdf');
-                setExportState(false, 'Da tai PDF');
-            } catch (error) {
-                setExportState(false, 'Loi khi tao PDF: ' + error.message);
-            }
-        }
-
         function previewImage(event) {
             const file = event.target.files[0];
             if (file) {
